@@ -1,82 +1,80 @@
 package com.danhheo.config;
 
-import com.danhheo.dao.NganhDAO;
-import com.danhheo.dao.SinhVienDAO;
-import com.danhheo.dao.TotNghiepDAO;
-import com.danhheo.dao.TruongDAO;
-import com.danhheo.service.NganhService;
-import com.danhheo.service.SinhVienService;
-import com.danhheo.service.TotNghiepService;
-import com.danhheo.service.TruongService;
-import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.ViewResolver;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.danhheo.controller.StudentController;
+import com.danhheo.dao.GraduationDAO;
+import com.danhheo.dao.JobDAO;
+import com.danhheo.dao.MajorDAO;
+import com.danhheo.dao.SchoolDAO;
+import com.danhheo.dao.StudentDAO;
+import com.danhheo.service.GraduationService;
+import com.danhheo.service.JobService;
+import com.danhheo.service.MajorService;
+import com.danhheo.service.SchoolService;
+import com.danhheo.service.StudentService;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.danhheo")
 public class AppConfig {
 
     @Bean
-    public DataSource dataSource() {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/jobstatistics");
-        dataSource.setUser("root");
-        dataSource.setPassword("1234"); // Set your MySQL password
-        return dataSource;
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
-
+    
     @Bean
-    public SinhVienDAO sinhVienDao() {
-        return new SinhVienDAO(dataSource());
+    public SchoolDAO schoolDAO(DataSource dataSource) {
+        return new SchoolDAO(dataSource);
     }
-
     @Bean
-    public TotNghiepDAO totNghiepDao() {
-        return new TotNghiepDAO(dataSource());
+    public SchoolService schoolService(DataSource dataSource) {
+        return new SchoolService(dataSource);
     }
-
+    
     @Bean
-    public TruongDAO truongDao() {
-        return new TruongDAO(dataSource());
+    public StudentDAO studentDAO(DataSource dataSource) {
+        return new StudentDAO(dataSource);
     }
-
     @Bean
-    public NganhDAO nghanhDao() {
-        return new NganhDAO(dataSource());
+    public StudentService studentService(DataSource dataSource) {
+        return new StudentService(dataSource);
     }
-
+    
     @Bean
-    public SinhVienService sinhVienService() {
-        return new SinhVienService(sinhVienDao());
+    public MajorDAO majorDAO(DataSource dataSource) {
+        return new MajorDAO(dataSource);
     }
-
     @Bean
-    public TotNghiepService totNghiepService() {
-        return new TotNghiepService(totNghiepDao());
+    public MajorService majorService(DataSource dataSource) {
+        return new MajorService(dataSource);
     }
-
+    
     @Bean
-    public TruongService truongService() {
-        return new TruongService(truongDao());
+    public JobDAO jobDAO(DataSource dataSource) {
+        return new JobDAO(dataSource);
     }
-
     @Bean
-    public NganhService nghanhService() {
-        return new NganhService(nghanhDao());
+    public JobService jobService(DataSource dataSource) {
+        return new JobService(dataSource);
     }
-
+    
     @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/jsp/");
-        resolver.setSuffix(".jsp");
-        return resolver;
+    public GraduationDAO graduationDAO(DataSource dataSource) {
+        return new GraduationDAO(dataSource);
+    }
+    @Bean
+    public GraduationService graduationService(DataSource dataSource) {
+        return new GraduationService(dataSource);
+    }
+    
+    @Bean
+    public StudentController studentController(DataSource dataSource) {
+        return new StudentController(dataSource);
     }
 }
